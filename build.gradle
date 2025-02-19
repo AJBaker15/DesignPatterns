@@ -1,16 +1,14 @@
 plugins {
-    // id "com.github.spotbugs" version "4.5.1"
-     //id "checkstyle"
+    id 'java'
+    id 'application'
+    id 'checkstyle'
+    id 'com.github.spotbugs' version '4.5.1'
 }
-apply plugin: 'application'
-apply plugin: 'java'
-apply plugin: 'jacoco'
 
 mainClassName = 'Main'
 
 compileJava.options.encoding = 'UTF-8'
 
-// Repositories and dependencies for code go here
 repositories {
     mavenCentral()
 }
@@ -19,51 +17,41 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
 }
+
 test {
-
     useJUnitPlatform()
-
 }
 
+///////////////////////////////////////////////////////////////////////
+// ✅ Configure Checkstyle (Version 8.8)
+///////////////////////////////////////////////////////////////////////
+checkstyle {
+    toolVersion = "8.8"
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    showViolations = false
+}
+
+tasks.withType(Checkstyle).configureEach {
+    classpath = files()
+    reports {
+        html.required.set(true)
+        xml.required.set(false)
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////
-// Configure Checkstyle
-/////////////////////////////////////////////////////////////////////
-// apply plugin: 'checkstyle'
-// checkstyle {
-//   // Keep checkstyle a little quieter
-//   ignoreFailures = true
-//   showViolations = false
-// }
-
-// tasks.withType(Checkstyle) {
-
-//   reports {
-//     html.enabled = true
-//     xml.enabled = false
-//   }
-//   // include '**/*.java'
-//   include '**/ui/App.java'
-//  }
-
-// checkstyle {
-//     toolVersion = "8.8"
-// }
-
-
+// ✅ Configure SpotBugs (Version 4.5.1)
 ///////////////////////////////////////////////////////////////////////
-// Configure SpotBugs
-///////////////////////////////////////////////////////////////////////
-// To generate an HTML report instead of XML
-// spotbugsMain {
-//     reports {
-//         xml.enabled = false
-//         html.enabled = true
-//     }
-// }
-// spotbugs {
-//     toolVersion = '4.2.2'
-//     ignoreFailures = true
-//     showProgress = true
-//     effort = 'max'
-// }
+spotbugs {
+    toolVersion = '4.5.1'
+    ignoreFailures = true
+    showProgress = true
+    effort = 'max'
+}
+
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask).configureEach {
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+    }
+}

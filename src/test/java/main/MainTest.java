@@ -11,7 +11,7 @@ public class MainTest {
     @Test
     void mainRunsOK() throws Exception {
         //grab the output from the system and store it in an array.
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        final ByteArrayOutputStream output = new ByteArrayOutputStream();
         //change the System output to print to the array instead of normal System.out
         System.setOut(new PrintStream(output));
         //run the main method
