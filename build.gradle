@@ -36,8 +36,8 @@ test {
  tasks.withType(Checkstyle) {
   
    reports {
-     html.enabled = true
-     xml.enabled = false
+     html.required.set(true)
+     xml.required.set(false)
    }
 
   }
@@ -53,8 +53,9 @@ test {
 // To generate an HTML report instead of XML
  spotbugsMain {
      reports {
-         xml.enabled = false
-         html.enabled = true
+         xml.required.set(false)
+         html.required.set(true)
+          
      }
  }
  spotbugs {
