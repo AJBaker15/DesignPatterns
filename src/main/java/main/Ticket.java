@@ -29,6 +29,10 @@ public class Ticket {
         checkedIn = true;
     }
 
+    public boolean getCheckedIn(){
+        return checkedIn;
+    }
+
     public int getTicketNum() {
         return ticketNum;
     }

@@ -33,6 +33,10 @@ public class Airplane implements Cloneable {
         this.planeID = planeID;
     }
 
+    public int getGateNum(){
+        return gateNum;
+    }
+
     public int getCapacity() {
         return capacity;
     }
@@ -89,7 +93,7 @@ public class Airplane implements Cloneable {
     }
 
     public void updateCapacity(int newCapacity) {
-        if (newCapacity > 0) {
+        if (newCapacity >= 0) {
             this.capacity = newCapacity;
         }
     }

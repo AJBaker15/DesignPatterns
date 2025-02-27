@@ -15,7 +15,7 @@ public class Runway {
     public Runway(int runwayID) {
         this.runwayID = runwayID;
         this.flightsWaiting = new ArrayList<Flight>();
-        isClear = false;
+        isClear = true;
         flightOnRunway = 0;
     }
 
@@ -55,8 +55,14 @@ public class Runway {
     }
 
     public void addToRunway(Flight flight) {
-        flightsWaiting.add(flight);
+        if (flightOnRunway == 0) { // If no flight is currently on the runway, assign it
+            flightOnRunway = flight.getFlightID();
+            isClear = false;
+        } else {
+            flightsWaiting.add(flight);
+        }
     }
+
 
     @Override
     public String toString() {

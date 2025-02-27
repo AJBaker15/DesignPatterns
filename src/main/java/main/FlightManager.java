@@ -55,14 +55,14 @@ public class FlightManager {
 
     public void modifyRunway(int flightID, int newRunwayID) {
         Flight flight = getFlightById(flightID);
-        if(flight != null) {
+        if (flight != null) {
             flight.assignRunway(newRunwayID);
-            ATC.update("[FlightManager] Flight: " + flight.getFlightID() + "assigned to Runway "
-            + newRunwayID);
+            ATC.update("[FlightManager] Flight: " + flight.getFlightID() + " assigned to Runway " + newRunwayID);
         } else {
-            ATC.update("[FlightManager] Flight: " + flight.getFlightID() + "not found.\n");
+            ATC.update("[FlightManager] Flight with ID " + flightID + " not found.\n"); // ✅ FIXED: No `null.getFlightID()`
         }
     }
+
 
     public Flight assignFlight(Destination destination) {
         if (destination == null) {

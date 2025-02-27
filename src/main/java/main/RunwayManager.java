@@ -64,10 +64,11 @@ public class RunwayManager {
             if(runway.getRunwayID() == runwayID){
                 if(runway.isClear()) {
                     if (!runway.getFlightsWaiting().isEmpty()) {
-                        Flight nextFlight = runway.getFlightsWaiting().remove(0);
-                        runway.addToRunway(nextFlight);
+                        Flight nextFlight = runway.getFlightsWaiting().remove(0); // Remove from queue
+                        runway.removeFromRunway(0); // Ensure no lingering flights
+                        runway.addToRunway(nextFlight); // Assign flight directly to runway
+                        runway.setClear(false); // 🚀 Mark runway as occupied
                         ATC.update("[Runway Manager] Flight " + nextFlight.getFlightID() + " assigned to runway " + runway.getRunwayID());
-                        runway.setClear(false);
                     } else {
                         ATC.update("[Runway Manager] No flights waiting for runway " + runway.getRunwayID());
                     }
@@ -77,4 +78,5 @@ public class RunwayManager {
             ATC.update("[Runway Manager] Runway " + runway.getRunwayID() + " is not clear.\n");
         }
     }
+
 }
