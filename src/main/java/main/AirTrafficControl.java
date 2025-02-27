@@ -128,11 +128,11 @@ public class AirTrafficControl {
             return;
         }
         Runway runway = runManager.assignRunway(flight);
-        if(runway == null) {
-            update("Flight" + flightID + "has no runway available.\n");
+        if(runway != null) {
+            flight.assignRunway(runway.getRunwayID());
+            update("Flight" + flightID + "has assigned runway\n");
         }
-        flight.assignRunway(runway.getRunwayID());
-        update("Flight" + flightID + "has assigned runway\n");
+
     }
      public void notifyPassengers(int flightID) {
         List<Ticket> tickets = tickManager.getTicketsByFlight(flightID);
