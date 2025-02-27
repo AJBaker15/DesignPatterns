@@ -34,12 +34,12 @@ public class Security {
     }
 
     public boolean processPassenger(Passenger passenger, Ticket ticket){
-        if(!secIsOpen){
+        if (!secIsOpen){
             ATC.update("[Security] Security station " + securityID + " not opened.");
             return false;
         }
 
-        if(passenger.getThreatLevel() > 3) {
+        if (passenger.getThreatLevel() > 3) {
             ATC.update("[Security] Passenger " + passenger.getName() + "failed Security Checkpoint");
             return false;
         }

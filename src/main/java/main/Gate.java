@@ -41,7 +41,7 @@ public class Gate implements Cloneable{
     @Override
     public Gate clone() {
         try {
-            Gate clone = (Gate) super.clone();
+            final Gate clone = (Gate) super.clone();
             clone.gateIsOpen = true;
             return clone;
         } catch (CloneNotSupportedException e) {

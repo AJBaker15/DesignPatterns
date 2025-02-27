@@ -19,14 +19,14 @@ public class Airport {
         passengers = new ArrayList<>();
 
     //Initializing some gates and sec stations
-        Gate baseGate = new Gate(1, true, null);
-        for(int i = 1; i <= 3; i++){
-            Gate clonedGate = baseGate.clone();
+        final Gate baseGate = new Gate(1, true, null);
+        for (int i = 1; i <= 3; i++){
+            final Gate clonedGate = baseGate.clone();
             clonedGate.setGateID(i);
             gates.add(clonedGate);
         }
 
-        for(int i = 1; i <= 3; i++){
+        for (int i = 1; i <= 3; i++){
             sec_stations.add(new Security(i, true, this.ATC));
         }
     }
@@ -69,27 +69,27 @@ public class Airport {
     }
 
     public void manageGates() {
-        if(passengers.size() > gates.size() * 10){
-            Gate newGate = gates.get(0).clone();
+        if (passengers.size() > gates.size() * 10){
+            final Gate newGate = gates.get(0).clone();
             newGate.setGateID(gates.size() + 1);
             gates.add(newGate);
             ATC.update("[Airport] New Gate Added: Gate: " + newGate.gateID);
         } else if (gates.size() > 3 && passengers.size() > gates.size() * 5){
-            Gate closingGate = gates.remove(gates.size() - 1);
+            final Gate closingGate = gates.remove(gates.size() - 1);
             ATC.update("[Airport] Gate Removed: Gate: " + closingGate.gateID);
         }
     }
 
     public Gate assignGate(Airplane airplane) {
-        for(Gate gate : gates){
-            if(gate.isOpen()){
+        for (Gate gate : gates){
+            if (gate.isOpen()){
                 gate.setDestination(airplane.getDestination());
                 ATC.update("[Airport] Airplane " + airplane.getPlaneID() + "assigned to Gate " + gate.gateID);
                 return gate;
             }
         }
-        if(gates.isEmpty()){
-            Gate newGate = gates.get(0).clone();
+        if (gates.isEmpty()){
+            final Gate newGate = gates.get(0).clone();
             newGate.setGateID(gates.size() + 1);
             gates.add(newGate);
             newGate.setDestination(airplane.getDestination());
@@ -100,8 +100,8 @@ public class Airport {
     }
 
     public Security assignSecurity() {
-        for(Security security : sec_stations){
-            if(security.getIsOpen()) {
+        for (Security security : sec_stations){
+            if (security.getIsOpen()) {
                 return security;
             }
         }
@@ -109,19 +109,19 @@ public class Airport {
     }
 
     public void manageSecurity() {
-        if(passengers.size() > sec_stations.size() * 10){
-            Security newSecurity = new Security(sec_stations.size() + 1, true, this.ATC);
+        if (passengers.size() > sec_stations.size() * 10){
+            final Security newSecurity = new Security(sec_stations.size() + 1, true, this.ATC);
             sec_stations.add(newSecurity);
             ATC.update("[Airport] Security Station: " + newSecurity.getSecurityID() +
                     "added.\n");
         } else if ( sec_stations.size() > 2 && passengers.size() < sec_stations.size() * 5){
-            Security closingSecurity = sec_stations.remove(sec_stations.size() - 1);
+            final Security closingSecurity = sec_stations.remove(sec_stations.size() - 1);
             ATC.update("[Airport] Security Station " + closingSecurity.getSecurityID() + "has been closed.\n");
         }
     }
 
     public void manageDestinations(Destination dest, boolean add) {
-        if(add){
+        if (add){
             destinations.add(dest);
             ATC.update("[Airport] New destination added: " + dest.getDestination());
         } else {

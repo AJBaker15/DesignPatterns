@@ -89,7 +89,7 @@ public class SimulationEngine {
     // === Initialize Runways ===
     private void initializeRunways() {
         for (int i = 1; i <= 10; i++) {
-            Runway runway = new Runway(i);
+            final Runway runway = new Runway(i);
             runway.setClear(true); //  Mark runways as available
             runwayManager.addRunway(runway);
         }
@@ -99,10 +99,10 @@ public class SimulationEngine {
 
     // === Initialize Airplanes (Prototype Pattern) ===
     private void initializeAirplanes() {
-        Airplane basePlane = new Airplane(1, gates.get(0).getGateID(), 10000, destinations.get(0), 100);
+        final Airplane basePlane = new Airplane(1, gates.get(0).getGateID(), 10000, destinations.get(0), 100);
 
         for (int i = 1; i <= 15; i++) {
-            Airplane clonedPlane = basePlane.clone();
+            final Airplane clonedPlane = basePlane.clone();
             clonedPlane.changeGate(gates.get(i % gates.size()).getGateID());
             clonedPlane.setDestination(destinations.get(i % destinations.size()));
 
@@ -123,10 +123,10 @@ public class SimulationEngine {
         }
 
         for (int i = 1; i <= 15; i++) {
-            Airplane airplane = airplaneManager.getAirplanes().get(i - 1);
-            Destination destination = destinations.get(i % destinations.size());
+            final Airplane airplane = airplaneManager.getAirplanes().get(i - 1);
+            final Destination destination = destinations.get(i % destinations.size());
 
-            Flight flight = new Flight(i, airplane, null, destination);
+            final Flight flight = new Flight(i, airplane, null, destination);
             flight.setFlightStatus(Flight.FlightStatus.ON_TIME); // Ensure flights are ON_TIME
             flightManager.addFlight(flight);
         }
@@ -137,7 +137,7 @@ public class SimulationEngine {
     // === Initialize Passengers ===
     private void initializePassengers() {
         for (int i = 1; i <= 10; i++) {
-            Destination destination = destinations.get(i % destinations.size());
+            final Destination destination = destinations.get(i % destinations.size());
             passengers.add(new Passenger("Passenger" + i, (i % 5), null, destination));
         }
     }
@@ -155,7 +155,7 @@ public class SimulationEngine {
     }
 
     private void delayRandomFlights() {
-        Random rand = new Random();
+        final Random rand = new Random();
         for (Flight flight : flightManager.getFlights()) {
             if (rand.nextInt(100) < 30) { // 30% chance to delay a flight
                 ATC.delayFlight(flight.getFlightID());
@@ -166,7 +166,7 @@ public class SimulationEngine {
     private void handleTakeoffs() {
         for (Flight flight : flightManager.getFlights()) {
             if (flight.getFlightStatus() == Flight.FlightStatus.ON_TIME) {
-                Airplane airplane = flight.getAirplane();
+                final Airplane airplane = flight.getAirplane();
 
                 // Check fuel before takeoff
                 if (airplane.getGallonsOfFuel() < airplane.getDestination().getFuelNeeded()) {
@@ -181,7 +181,7 @@ public class SimulationEngine {
                 }
 
                 // Assign a runway if available
-                Runway assignedRunway = runwayManager.getOpenRunways().stream().findFirst().orElse(null);
+                final Runway assignedRunway = runwayManager.getOpenRunways().stream().findFirst().orElse(null);
                 if (assignedRunway != null) {
                     flight.assignRunway(assignedRunway.getRunwayID());
                     ATC.apTakeoff(flight);
@@ -197,17 +197,17 @@ public class SimulationEngine {
     private void handleCheckIns() {
         for (int i = 1; i <= 10; i++) { // Simulating 10 passengers per cycle
             // Ensure passengers are assigned a valid destination
-            Destination assignedDestination = destinations.get(i % destinations.size());
-            Passenger passenger = new Passenger("Passenger" + i, new Random().nextInt(5), null, assignedDestination);
+            final Destination assignedDestination = destinations.get(i % destinations.size());
+            final Passenger passenger = new Passenger("Passenger" + i, new Random().nextInt(5), null, assignedDestination);
 
-            Ticket newTicket = checkIn.assignNewTicket(passenger);
+            final Ticket newTicket = checkIn.assignNewTicket(passenger);
             if (newTicket == null) {
                 ATC.update("[Check In] No available flights for " + passenger.getName());
                 continue; // If no ticket assigned, skip this passenger
             }
 
             // Process security check
-            Security assignedSecurity = airport.getSecurityByID(newTicket.getSec_station_id());
+            final Security assignedSecurity = airport.getSecurityByID(newTicket.getSec_station_id());
             if (!assignedSecurity.processPassenger(passenger, newTicket)) {
                 ATC.update("[Check In] Passenger " + passenger.getName() + " failed security and cannot board.");
                 continue; // If security fails, they don't board
@@ -233,7 +233,7 @@ public class SimulationEngine {
             // Display Airport State every 30 minutes
             airport.displayAirportState();
 
-            if(time % 60 == 0) {
+            if (time % 60 == 0) {
                 delayRandomFlights();
             }
 
@@ -242,11 +242,11 @@ public class SimulationEngine {
 
             // Process Check-In, Security, and Boarding
             for (Passenger passenger : passengers) {
-                Ticket ticket = checkIn.assignNewTicket(passenger);
+                final Ticket ticket = checkIn.assignNewTicket(passenger);
                 if (ticket == null) continue; // Skip if no ticket was assigned
 
-                Security security = securityStations.get(ticket.getSec_station_id() % securityStations.size());
-                boolean passedSecurity = security.processPassenger(passenger, ticket);
+                final Security security = securityStations.get(ticket.getSec_station_id() % securityStations.size());
+                final boolean passedSecurity = security.processPassenger(passenger, ticket);
                 if (!passedSecurity) continue; // Skip if security failed
 
                 ticketManager.boardPassenger(ticket.getTicketNum());
@@ -263,7 +263,7 @@ public class SimulationEngine {
     }
 
     public static void main(String[] args) {
-        SimulationEngine sim = new SimulationEngine();
+        final SimulationEngine sim = new SimulationEngine();
         sim.runSimulation();
     }
 }

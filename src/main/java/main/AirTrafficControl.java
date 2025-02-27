@@ -2,6 +2,7 @@ package main;
 
 import java.util.List;
 
+
 public class AirTrafficControl {
 
     private Airport airport;
@@ -25,7 +26,7 @@ public class AirTrafficControl {
 
 
     public void apTakeoff(Flight flight) {
-        Airplane airplane = flight.getAirplane();
+        final Airplane airplane = flight.getAirplane();
 
         if (airplane.getGallonsOfFuel() < flight.getDestination().getFuelNeeded()) {
             update("[ATC] Flight " + flight.getFlightID() + " has insufficient fuel, delaying.");
@@ -40,7 +41,7 @@ public class AirTrafficControl {
         }
 
         // Assign a runway and allow takeoff
-        Runway assignedRunway = runManager.assignRunway(flight);
+        final Runway assignedRunway = runManager.assignRunway(flight);
         if (assignedRunway == null) {
             update("[ATC] No open runways for Flight " + flight.getFlightID() + ", delaying.");
             flight.setFlightStatus(Flight.FlightStatus.DELAYED);
@@ -53,18 +54,18 @@ public class AirTrafficControl {
 
 
     public void apLand(int flightID) {
-        Flight flight = flManager.getFlightById(flightID);
+        final Flight flight = flManager.getFlightById(flightID);
         if (flight == null) {
             System.out.println("[ATC] Flight not found");
             return;
         }
-        Airplane airplane = flight.getAirplane();
+        final Airplane airplane = flight.getAirplane();
         if (airplane == null) {
             System.out.println("[ATC] Airplane not found");
         }
 
-        Runway assignRunway = runManager.assignRunway(flight);
-        if(assignRunway == null){
+        final Runway assignRunway = runManager.assignRunway(flight);
+        if (assignRunway == null){
             update("Flight" + flightID + "is awaiting a free runway to land.");
             return;
         }
@@ -74,7 +75,7 @@ public class AirTrafficControl {
     }
 
     public int getDelayedFlightCount() {
-        List<Flight> delayedFlights = flManager.getDelayedFlights();
+        final List<Flight> delayedFlights = flManager.getDelayedFlights();
         return delayedFlights.size();
     }
 
@@ -84,8 +85,8 @@ public class AirTrafficControl {
     }
 
     public void modifyFlightRunway(int flightID, int newRunwayID) {
-        Flight flight = flManager.getFlightById(flightID);
-        if(flight == null) {
+        final Flight flight = flManager.getFlightById(flightID);
+        if (flight == null) {
             update("Flight" + flightID + "has no available runway\n");
             return;
         }
@@ -94,12 +95,12 @@ public class AirTrafficControl {
     }
 
     public void delayFlight(int flightID) {
-        Flight flight = flManager.getFlightById(flightID);
+        final Flight flight = flManager.getFlightById(flightID);
         if (flight == null) {
             update("Flight" + flightID + "not found.\n");
             return;
         }
-        if(flight.getFlightStatus() == Flight.FlightStatus.CANCELED){
+        if (flight.getFlightStatus() == Flight.FlightStatus.CANCELED){
             update("Flight" + flightID + "is canceled and cannot be delayed.\n");
         }
         flight.setFlightStatus(Flight.FlightStatus.DELAYED);
@@ -107,12 +108,12 @@ public class AirTrafficControl {
     }
 
     public void refuelPlane(int planeID) {
-        Airplane airplane = apManager.getAirplane(planeID);
-        if(airplane == null) {
+        final Airplane airplane = apManager.getAirplane(planeID);
+        if (airplane == null) {
             update("Airplane " + planeID + "not found.\n");
             return;
         }
-        int fuelNeeded = airplane.getDestination().getFuelNeeded();
+        final int fuelNeeded = airplane.getDestination().getFuelNeeded();
         airplane.refuel(fuelNeeded);
         update("Airplane " + planeID + "refueled.\n");
     }
@@ -122,29 +123,29 @@ public class AirTrafficControl {
     }
 
     public void assignRunway(int flightID) {
-        Flight flight = flManager.getFlightById(flightID);
-        if(flight == null) {
+        final Flight flight = flManager.getFlightById(flightID);
+        if (flight == null) {
             update("Flight" + flightID + "not found.\n");
             return;
         }
-        Runway runway = runManager.assignRunway(flight);
-        if(runway != null) {
+        final Runway runway = runManager.assignRunway(flight);
+        if (runway != null) {
             flight.assignRunway(runway.getRunwayID());
             update("Flight" + flightID + "has assigned runway\n");
         }
 
     }
-     public void notifyPassengers(int flightID) {
-        List<Ticket> tickets = tickManager.getTicketsByFlight(flightID);
-        if(tickets.isEmpty()) {
+    public void notifyPassengers(int flightID) {
+        final List<Ticket> tickets = tickManager.getTicketsByFlight(flightID);
+        if (tickets.isEmpty()) {
             update("No passengers to notify.\n");
             return;
         }
-        for(Ticket ticket : tickets) {
+        for (Ticket ticket : tickets) {
             update("Notifying passenger " + ticket.getPassenger().getName() + "about Flight "
-            + flightID);
+                    + flightID);
         }
-     }
+    }
 
 
 

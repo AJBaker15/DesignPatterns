@@ -24,9 +24,9 @@ public class FlightManager {
     }
 
     public ArrayList<Flight> getDelayedFlights() {
-        ArrayList<Flight> delayedFlights = new ArrayList<>();
+        final ArrayList<Flight> delayedFlights = new ArrayList<>();
         for (Flight flight : flights) {
-            if(flight.getFlightStatus() == Flight.FlightStatus.DELAYED) {
+            if (flight.getFlightStatus() == Flight.FlightStatus.DELAYED) {
                 delayedFlights.add(flight);
             }
         }
@@ -35,7 +35,7 @@ public class FlightManager {
 
     public Flight getFlightById(int flightID) {
         for (Flight flight : flights) {
-            if(flight.flightID == flightID) {
+            if (flight.flightID == flightID) {
                 return flight;
             }
         }
@@ -44,9 +44,9 @@ public class FlightManager {
 
 
     public ArrayList<Flight> getOnTime() {
-        ArrayList<Flight> onTimeFlights = new ArrayList<>();
+        final ArrayList<Flight> onTimeFlights = new ArrayList<>();
         for (Flight flight : flights) {
-            if(flight.getFlightStatus() == Flight.FlightStatus.ON_TIME){
+            if (flight.getFlightStatus() == Flight.FlightStatus.ON_TIME){
                 onTimeFlights.add(flight);
             }
         }
@@ -54,7 +54,7 @@ public class FlightManager {
     }
 
     public void modifyRunway(int flightID, int newRunwayID) {
-        Flight flight = getFlightById(flightID);
+        final Flight flight = getFlightById(flightID);
         if (flight != null) {
             flight.assignRunway(newRunwayID);
             ATC.update("[FlightManager] Flight: " + flight.getFlightID() + " assigned to Runway " + newRunwayID);

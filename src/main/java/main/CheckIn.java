@@ -20,19 +20,19 @@ public class CheckIn {
             return null;
         }
 
-        Flight assignedFlight = flightManager.assignFlight(passenger.getDestination());
+        final Flight assignedFlight = flightManager.assignFlight(passenger.getDestination());
         if (assignedFlight == null) {
             ATC.update("[Check In] No Available flights for " + passenger.getName());
             return null;
         }
 
-        Gate assignedGate = airport.assignGate(assignedFlight.getAirplane());
+        final Gate assignedGate = airport.assignGate(assignedFlight.getAirplane());
         if (assignedGate == null) {
             ATC.update("[Check In] No available gate for flight " + assignedFlight.getFlightID());
             return null;
         }
 
-        Security assignedSecurity = airport.assignSecurity();
+        final Security assignedSecurity = airport.assignSecurity();
         if (assignedSecurity == null) {
             ATC.update("[Check In] No available security for " + passenger.getName());
             return null;
@@ -44,13 +44,13 @@ public class CheckIn {
             return null;
         }
 
-        Ticket newTicket = new Ticket(passenger, assignedFlight.getFlightID(), assignedGate.getGateID(), assignedSecurity.getSecurityID());
+        final Ticket newTicket = new Ticket(passenger, assignedFlight.getFlightID(), assignedGate.getGateID(), assignedSecurity.getSecurityID());
         ticketManager.addTicket(newTicket);
 
         ATC.update("[Check In] Ticket assigned to " + passenger.getName() + " for Flight " + assignedFlight.getFlightID());
 
         // Ensure we retrieve a valid list before checking size
-        int numTicketsByFlight = ticketManager.getTicketsByFlight(assignedFlight.getFlightID()) != null
+        final int numTicketsByFlight = ticketManager.getTicketsByFlight(assignedFlight.getFlightID()) != null
                 ? ticketManager.getTicketsByFlight(assignedFlight.getFlightID()).size()
                 : 0;
 

@@ -20,9 +20,9 @@ public class RunwayManager {
     }
 
     public ArrayList<Runway> getOpenRunways() {
-        ArrayList<Runway> openRunways = new ArrayList<>();
+        final ArrayList<Runway> openRunways = new ArrayList<>();
         for (Runway runway : runways) {
-            if(runway.isClear()){
+            if (runway.isClear()){
                 openRunways.add(runway);
             }
         }
@@ -32,7 +32,7 @@ public class RunwayManager {
 
     public ArrayList<Flight> getRunwayFlightsWaiting(int runwayID) {
         for (Runway runway : runways) {
-            if(runway.getRunwayID() == runwayID){
+            if (runway.getRunwayID() == runwayID){
                 return runway.getFlightsWaiting();
             }
         }
@@ -40,8 +40,8 @@ public class RunwayManager {
     }
 
     public Runway assignRunway(Flight flight) {
-        for(Runway runway : runways){
-            if(runway.isClear()){
+        for (Runway runway : runways){
+            if (runway.isClear()){
                 runway.addToRunway(flight);
                 ATC.update("[Runway Manager] Flight " + flight.getFlightID() + " assigned to runway " + runway.getRunwayID());
                 return runway;
@@ -51,8 +51,8 @@ public class RunwayManager {
     }
 
     public void freeRunway(int runwayID) {
-        for(Runway runway : runways){
-            if(runway.getRunwayID() == runwayID){
+        for (Runway runway : runways){
+            if (runway.getRunwayID() == runwayID){
                 runway.clearRunway();
                 runway.removeFromRunway(runway.getFlightOnRunway());
                 ATC.update("[Runway Manager] Runway " + runwayID + " is clear.\n");
@@ -60,11 +60,11 @@ public class RunwayManager {
         }
     }
     public void loadRunway(int runwayID) {
-        for(Runway runway: runways){
-            if(runway.getRunwayID() == runwayID){
-                if(runway.isClear()) {
+        for (Runway runway: runways){
+            if (runway.getRunwayID() == runwayID){
+                if (runway.isClear()) {
                     if (!runway.getFlightsWaiting().isEmpty()) {
-                        Flight nextFlight = runway.getFlightsWaiting().remove(0); // Remove from queue
+                        final Flight nextFlight = runway.getFlightsWaiting().remove(0); // Remove from queue
                         runway.removeFromRunway(0); // Ensure no lingering flights
                         runway.addToRunway(nextFlight); // Assign flight directly to runway
                         runway.setClear(false); // 🚀 Mark runway as occupied

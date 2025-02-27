@@ -78,7 +78,7 @@ public class Airplane implements Cloneable {
     }
 
     public void consumeFuel() {
-        int fuelNeeded = destination.getFuelNeeded();
+        final int fuelNeeded = destination.getFuelNeeded();
         if (this.gallonsOfFuel >= fuelNeeded) {  // ✅ Correct condition
             this.gallonsOfFuel -= fuelNeeded;
         } else {
@@ -115,7 +115,7 @@ public class Airplane implements Cloneable {
     @Override
     public Airplane clone() {
         try {
-            Airplane clone = (Airplane) super.clone();
+            final Airplane clone = (Airplane) super.clone();
             this.gallonsOfFuel = 10000;
             this.maintenanceNeeded = false;
             this.cleared = false;

@@ -39,7 +39,7 @@ public class AirplaneManager {
     }
 
     public List<Airplane> getAirplanesNeedingFuel() {
-        List<Airplane> lowFuelPlanes = new ArrayList<>();
+        final List<Airplane> lowFuelPlanes = new ArrayList<>();
         for (Airplane airplane : airplanes) {
             if (airplane.getGallonsOfFuel() < airplane.getDestination().getFuelNeeded()) {
                 lowFuelPlanes.add(airplane);
@@ -49,7 +49,7 @@ public class AirplaneManager {
     }
 
     public List<Airplane> getAirplanesNeedingMaintenance() {
-        List<Airplane> maintenancePlanes = new ArrayList<>();
+        final List<Airplane> maintenancePlanes = new ArrayList<>();
         for (Airplane airplane : airplanes) {
             if (airplane.needsMaintenance()) {
                 maintenancePlanes.add(airplane);

@@ -46,7 +46,7 @@ public class Runway {
     }
 
     public void removeFromRunway(int flightID) {
-        if(flightOnRunway == flightID) {
+        if (flightOnRunway == flightID) {
             flightOnRunway = 0;
             isClear = true;
         } else {

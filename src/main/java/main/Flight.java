@@ -52,7 +52,7 @@ public class Flight {
     }
 
     public void assignRunway(int runwayID) {
-        if(runwayID >= 0) {
+        if (runwayID >= 0) {
             this.runwayID = runwayID;
         }
     }

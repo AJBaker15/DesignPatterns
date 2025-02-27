@@ -37,7 +37,7 @@ public class TicketManager {
 
     // === Get All Tickets for a Flight ===
     public ArrayList<Ticket> getTicketsByFlight(int flightID) {
-        ArrayList<Ticket> flightTickets = new ArrayList<>();
+        final ArrayList<Ticket> flightTickets = new ArrayList<>();
         for (Ticket ticket : tickets) {
             if (ticket.getFlightID() == flightID) {
                 flightTickets.add(ticket);
@@ -48,7 +48,7 @@ public class TicketManager {
 
     // === Board Passenger (Decreases Airplane Capacity) ===
     public void boardPassenger(int ticketNum) {
-        Ticket ticket = getTicketById(ticketNum);
+        final Ticket ticket = getTicketById(ticketNum);
         if (ticket == null) {
             ATC.update("[TicketManager] Ticket " + ticketNum + " not found.");
             return;
@@ -59,13 +59,13 @@ public class TicketManager {
             return;
         }
 
-        Flight flight = flightManager.getFlightById(ticket.getFlightID());
+        final Flight flight = flightManager.getFlightById(ticket.getFlightID());
         if (flight == null) {
             ATC.update("[TicketManager] Flight " + ticket.getFlightID() + " not found.");
             return;
         }
 
-        Airplane airplane = flight.getAirplane();
+        final Airplane airplane = flight.getAirplane();
         if (airplane == null || airplane.getCapacity() <= 0) {
             ATC.update("[TicketManager] Flight " + flight.getFlightID() + " is full. Cannot board passenger " + ticket.getPassenger().getName() + ".");
             return;
